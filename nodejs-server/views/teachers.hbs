@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+    <h1>Teachers</h1>
+
+    <table>
+        {{#each teachers}}
+            <tr>
+                <td>{{surname}}</td>
+                <td>{{firstName}}</td>
+                <td>{{patronymic}}</td>
+                <td>{{phone}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</body>
+<html>

@@ -1,0 +1,12 @@
+    <h1>Контакты</h1>
+    {{#if emailsVisible}}
+        <h2> Emails: </h2>
+        <ul>
+            {{#each emails}}
+                <li>
+                    {{this}}
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+    <p>Phone: {{phone}}</p>
