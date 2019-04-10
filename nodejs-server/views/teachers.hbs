@@ -1,21 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{title}}</title>
-    <meta charset="utf-8"/>
-</head>
-<body>
-    <h1>Teachers</h1>
 
-    <table>
-        {{#each teachers}}
-            <tr>
-                <td>{{surname}}</td>
-                <td>{{firstName}}</td>
-                <td>{{patronymic}}</td>
-                <td>{{phone}}</td>
-            </tr>
-        {{/each}}
-    </table>
-</body>
-<html>
+<h1>Teachers</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Surname</th>
+        <th>First name</th>
+        <th>Patronymic</th>
+        <th>Phone number</th>
+    </tr>
+    {{#each this}}
+        <tr>
+            <td class="idRow">{{idTeacher}}</td>
+            <td>{{surname}}</td>
+            <td>{{firstName}}</td>
+            <td>{{patronymic}}</td>
+            <td>{{phone}}</td>
+            <td><input type="button" name="delete" value="Delete" onclick="deleteRow(this)"/></td>
+            <td><input type="button" name="edit" value="Edit"/></td>
+        </tr>
+    {{/each}}
+        <!--<tr>
+            <td><input type="text" name="userSurname" /></td>
+            <td><input type="text" name="userName" /></td>
+            <td><input type="text" name="userPatronymic" /></td>
+            <td><input type="text" name="userPhone" /></td>
+        </tr>
+        <input type="submit" value="Add" />-->
+</table>
+
+
+<form action="/teachers" method="post">
+    <label>Name</label><br>
+    <input type="text" name="userName" /><br><br>
+    <label>Patronymic</label><br>
+    <input type="text" name="userPatronymic" /><br><br>
+    <label>Surname</label><br>
+    <input type="text" name="userSurname" /><br><br>
+    <label>Phone number</label><br>
+    <input type="text" name="userPhone" /><br><br>
+    <input type="submit" value="Add" />
+</form>

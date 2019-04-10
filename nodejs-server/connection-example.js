@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const util = require('util');
 
 console.log('Get connection...');
 const connection = mysql.createConnection({
@@ -7,6 +8,9 @@ const connection = mysql.createConnection({
     user:'root',
     password:'yfghbvth?djn'
 });
+
+const query = util.promisify(connection.query).bind(connection);
+
 function makeConnection() {
     //console.log("makeconnection");
     connection.connect(function (err) {
@@ -16,29 +20,48 @@ function makeConnection() {
 }
 
 function insertIntoTable(tableName, tableFields, tableValues){
+    console.log('from conn'+tableValues);
     connection.query('insert into ' + tableName + '('+ [tableFields] + ') values (?)', [tableValues], function(err, result){
         if (err) throw err;
         console.log("1 record inserted");
     })
 }
-function getTeachersFromDB(){
-    connection.query("SELECT * FROM teacher", function (err, result) {
+async function getTeachersFromDB(){
+  const rows = await query("SELECT * FROM teacher");
+  return rows;
+   /* return connection.query("SELECT * FROM teacher", function (err, result) {
         if (err) throw err;
         console.log(result);
         return result;
-    });
+    });*/
 }
-//insertIntoTable('teacher', ['firstName', 'surname', 'patronymic', 'phone'], ["Зю", "Зюшный", "Зюшевич", "00"]);
-// connection.query('insert into teacher (firstName, surname, patronymic, phone) values ("Киса", "Мурная", "Мурковна", "meow")',
-//     function (err, result) {
-//         if (err) throw err;
-//         console.log("1 record inserted");
-// });
+function deleteTeachersFromDB(id){
+
+        let sql = "DELETE FROM teachers WHERE idTeacher = " + id;
+        query(sql, function (err, result) {
+            if (err) throw err;
+            console.log("Number of records deleted: " + result.affectedRows);
+        });
+
+}
 
 
-// connection.query("SELECT * FROM teacher", function (err, result, fields) {
-//     if (err) throw err;
-//     console.log(result);
-// });
-module.exports={getTeachersFromDB, makeConnection}
+/*(async () => {
+    try {
+        const rows = await query('select count(*) as count from file_managed');
+        console.log(rows);
+    } finally {
+        conn.end();
+    }
+})()*/
+
+
+/*insertIntoTable('teacher', ['firstName', 'surname', 'patronymic', 'phone'], ["Зю", "Зюшный", "Зюшевич", "00"]);
+connection.query('insert into teacher (firstName, surname, patronymic, phone) values ("Киса", "Мурная", "Мурковна", "meow")',
+    function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+});
+*/
+module.exports={getTeachersFromDB, makeConnection, insertIntoTable, deleteTeachersFromDB}
 
